@@ -8,7 +8,7 @@ namespace CarRental.Services.RccAPI.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-            "Freezer", "Goku", "Mazda", "Vegeta", "Milk", "Warmhulk", "Thor", "BlackWidow", "Toyota", "Black Panther"
+            "Goten", "Goku", "Gogeta", "Vegeta", "Godzilla", "Goya", "Gorilar", "Gate", "Gathering", "Ginyu"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
