@@ -8,7 +8,7 @@ namespace CarRental.Services.RccAPI.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-            "Gojo", "Sukuna", "Geto", "Itadori", "Mahorama", "Sumi", "Zeus", "Loki", "Asgard", "Game of Thrones"
+            "Gojo", "Sukuna", "Geto", "Itadori", "Mahorama", "Sumi",  "Loki", "Asgard", "Game of Thrones"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;

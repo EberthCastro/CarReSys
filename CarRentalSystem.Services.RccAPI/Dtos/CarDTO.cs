@@ -1,20 +1,14 @@
-﻿namespace CarRentalSystem.Services.RccAPI.Models
+﻿using CarRentalSystem.Services.RccAPI.Models;
+
+namespace CarRentalSystem.Services.RccAPI.Dtos
 {
-    public class CarDB
+    public class CarDTO
     {
         public int CardId { get; set; }
         public string? Brand { get; set; }
         public string? Model { get; set; }
-        public CarType Type { get; set; }
+        public string? Type { get; set; }
         public decimal PricePerDay { get; set; }
         public bool IsAvailable { get; set; }
     }
-    public enum CarType
-    {
-        Small,
-        SUV,
-        Premium
-    }
-
-
 }
