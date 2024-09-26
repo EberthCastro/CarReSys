@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{3DC7942E-9BBA-4A5C-8A4A-45DE6DB8AA91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentalSystem.Services.RccAPI", "CarRentalSystem.Services.RccAPI\CarRentalSystem.Services.RccAPI.csproj", "{78D9B30E-FB53-48EE-BE94-1FC8ECBDF2A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78D9B30E-FB53-48EE-BE94-1FC8ECBDF2A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78D9B30E-FB53-48EE-BE94-1FC8ECBDF2A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78D9B30E-FB53-48EE-BE94-1FC8ECBDF2A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78D9B30E-FB53-48EE-BE94-1FC8ECBDF2A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{78D9B30E-FB53-48EE-BE94-1FC8ECBDF2A3} = {3DC7942E-9BBA-4A5C-8A4A-45DE6DB8AA91}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71896B26-4B9E-4801-B6B2-792DB9768BC9}
+	EndGlobalSection
+EndGlobal
