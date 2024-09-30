@@ -20,6 +20,7 @@ namespace CarRentalSystem.Services.RccAPI.Services
             var customers = await _db.Customers.ToListAsync();
             return customers.Select(c => new CustomerDTO
             {
+                CustomerId = c.CustomerId,
                 Name = c.Name,
                 LoyaltyPoints = c.LoyaltyPoints
             }).ToList();
@@ -33,6 +34,7 @@ namespace CarRentalSystem.Services.RccAPI.Services
 
             return new CustomerDTO
             {
+                CustomerId = customer.CustomerId,
                 Name = customer.Name,
                 LoyaltyPoints = customer.LoyaltyPoints
             };
@@ -52,6 +54,7 @@ namespace CarRentalSystem.Services.RccAPI.Services
 
             return new CustomerDTO
             {
+                CustomerId = customer.CustomerId,
                 Name = customer.Name,
                 LoyaltyPoints = customer.LoyaltyPoints
             };

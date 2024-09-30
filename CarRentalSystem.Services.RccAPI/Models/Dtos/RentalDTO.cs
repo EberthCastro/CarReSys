@@ -6,6 +6,7 @@
         public int CarId { get; set; }
         public int CustomerId { get; set; }
         public DateTime RentalDate { get; set; }
+        //public DateTime RentalDateFinal { get; set; }
         public DateTime ReturnDate { get; set; }
         public string? Price { get; set; }
         public string? ExtraDays { get; set; }

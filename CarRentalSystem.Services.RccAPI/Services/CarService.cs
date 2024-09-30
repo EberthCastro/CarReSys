@@ -20,6 +20,7 @@ namespace CarRentalSystem.Services.RccAPI.Services
             var cars = await _db.Cars.ToListAsync();
             return cars.Select(car => new CarDTO
             {
+                CarId = car.CardId,
                 Brand = car.Brand,
                 Model = car.Model,
                 Type = car.Type,
@@ -36,6 +37,7 @@ namespace CarRentalSystem.Services.RccAPI.Services
 
             return new CarDTO
             {
+                CarId = car.CardId,
                 Brand = car.Brand,
                 Model = car.Model,
                 Type = car.Type,
@@ -61,6 +63,7 @@ namespace CarRentalSystem.Services.RccAPI.Services
 
             return new CarDTO
             {
+                CarId = newCar.CardId,
                 Brand = newCar.Brand,
                 Model = newCar.Model,
                 Type = newCar.Type,
