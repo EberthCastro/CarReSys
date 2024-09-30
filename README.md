@@ -29,12 +29,12 @@ Ensure the following are installed on your machine:
 1.Open your terminal or command prompt.
 
 2.Run the following command to clone the repository:
-```bash
-https://github.com/EberthCastro/CarReSys.git
+ ```bash
+ https://github.com/EberthCastro/CarReSys.git
 
 3.Navigate into the project directory:
-```bash
-cd CarRentalSystem
+ ```bash
+ cd CarRentalSystem
 
 📦 Step 2: Install Dependencies
 Once inside the project directory, restore the necessary NuGet packages by running:
