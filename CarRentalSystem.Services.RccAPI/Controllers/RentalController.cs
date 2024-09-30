@@ -96,23 +96,19 @@ namespace CarRentalSystem.Services.RccAPI.Controllers
 
         //Method to calculate the price for rental after the Customer return the Car
         [HttpPost("RentalPrice/{rentalId}")]
-        public async Task<IActionResult> RentalPrice([FromRoute] int rentalId, RentalDTO rentalDto)
+        public async Task<IActionResult> RentalPrice([FromRoute] int rentalId)
         {
             try
             {
                 // Obtener el alquiler desde la base de datos usando el RentalId
-                RentalDTO? result = await _rentalService.GetOneAsync(rentalId); // Asegúrate de tener este método en tu servicio
-
+                RentalDTO? result = await _rentalService.GetOneAsync(rentalId); 
                 if (result == null)
                 {
                     return NotFound($"Rental with Id = {rentalId} not found.");
                 }
 
-                decimal totalPrice = 0;
-                int numberOfDays = (result.ReturnDate - result.RentalDate).Days;
-
-                Console.WriteLine($"CarType received: '{result.RentalDate}'");
-                Console.WriteLine($"CarType received: '{result.CarType}'");
+                decimal Price = 0;
+                int numberOfDays = (result.ReturnDate - result.RentalDate).Days;                
 
                 // Define prices
                 const decimal premiumPrice = 300m;
@@ -129,7 +125,7 @@ namespace CarRentalSystem.Services.RccAPI.Controllers
                 };
 
                 // Calculate the total price based on car type and rental duration
-                totalPrice = result.CarType switch
+                Price = result.CarType switch
                 {
                     "Premium" => CalculatePremiumPrice(numberOfDays, basePrice),
                     "SUV" => CalculateSuvPrice(numberOfDays, basePrice),
@@ -137,7 +133,11 @@ namespace CarRentalSystem.Services.RccAPI.Controllers
                     _ => 0
                 };
 
-                return Ok(totalPrice);
+                // Update the rental record with the calculated price
+                result.Price = Price.ToString(); 
+                await _rentalService.UpdateAsync(rentalId, result); 
+
+                return Ok(Price);
             }
             catch (Exception ex)
             {
@@ -145,50 +145,115 @@ namespace CarRentalSystem.Services.RccAPI.Controllers
             }
         }
 
+        [HttpPost("CalculateTotalPrice/{rentalId}/{ExtraDays}")]
+        public async Task<IActionResult> CalculateTotalPrice([FromRoute] int rentalId, int ExtraDays)
+        {
+            try
+            {
+                // Obtener el alquiler desde la base de datos usando el RentalId
+                RentalDTO? rental = await _rentalService.GetOneAsync(rentalId);
+                if (rental == null)
+                {
+                    return NotFound($"Rental with Id = {rentalId} not found.");
+                }
+
+                // Obtener el RentalPrice desde la base de datos
+                decimal rentalPrice = decimal.Parse(rental.Price ?? "0"); 
+
+                // Calcular el TotalPrice considerando los días extra
+                decimal extraCharges = CalculateExtraCharges(rental.CarType, ExtraDays.ToString());
+                decimal totalPrice = rentalPrice + extraCharges;
+
+                // Actualizar el TotalPrice en el objeto RentalDTO
+                rental.TotalPrice = totalPrice.ToString("F2");
+                rental.ExtraDays = ExtraDays.ToString();
+
+                // Actualizar el alquiler en la base de datos
+                await _rentalService.UpdateAsync(rentalId, rental);
+
+                return Ok(rental);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         private decimal CalculatePremiumPrice(int numberOfDays, decimal premiumPrice)
         {
-            decimal totalPrice = premiumPrice * numberOfDays;
+            decimal Price = premiumPrice * numberOfDays;
             if (numberOfDays > 1)
             {
-                totalPrice += premiumPrice * 0.20m * (numberOfDays - 1); // Extra days
+                Price += premiumPrice * 0.20m * (numberOfDays - 1); 
             }
-            return totalPrice;
+            return Price;
         }
 
         private decimal CalculateSuvPrice(int numberOfDays, decimal suvPrice)
         {
-            decimal totalPrice;
+            decimal Price;
 
             if (numberOfDays <= 7)
             {
-                totalPrice = suvPrice * numberOfDays;
+                Price = suvPrice * numberOfDays;
             }
             else if (numberOfDays <= 30)
             {
-                totalPrice = (suvPrice * 7) + (suvPrice * 0.80m * (numberOfDays - 7));
+                Price = (suvPrice * 7) + (suvPrice * 0.80m * (numberOfDays - 7));
             }
             else
             {
-                totalPrice = (suvPrice * 7) + (suvPrice * 0.50m * (numberOfDays - 30));
+                Price = (suvPrice * 7) + (suvPrice * 0.50m * (numberOfDays - 30));
             }
 
-            return totalPrice;
+            return Price;
         }
 
         private decimal CalculateSmallCarPrice(int numberOfDays, decimal smallPrice)
         {
-            decimal totalPrice;
+            decimal Price;
 
             if (numberOfDays <= 7)
             {
-                totalPrice = smallPrice * numberOfDays;
+                Price = smallPrice * numberOfDays;
             }
             else
             {
-                totalPrice = (smallPrice * 7) + (smallPrice * 0.60m * (numberOfDays - 7));
+                Price = (smallPrice * 7) + (smallPrice * 0.60m * (numberOfDays - 7));
             }
 
-            return totalPrice;
+            return Price;
+        }
+
+        private decimal CalculateExtraCharges(string? carType, string? extraDays)
+        {
+            // Convertir extraDays a int
+            int extraDaysCount = string.IsNullOrWhiteSpace(extraDays) ? 0 : int.Parse(extraDays);
+            decimal extraCharges = 0;
+
+            // Si no hay días extra, no hay cargos
+            if (extraDaysCount <= 0) return extraCharges; 
+
+            switch (carType)
+            {
+                case "Premium":
+                    extraCharges += (300m + (300m * 0.20m)) * extraDaysCount; 
+                    break;
+
+                case "SUV":
+                    extraCharges += (150m + (150m * 0.60m)) * extraDaysCount; 
+                    break;
+
+                case "Small":
+                    extraCharges += (50m + (50m * 0.30m)) * extraDaysCount; 
+                    break;
+
+                default:
+                    throw new ArgumentException("Invalid car type.");
+            }
+
+            return extraCharges;
         }
 
     }
