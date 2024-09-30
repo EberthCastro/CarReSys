@@ -14,8 +14,10 @@ builder.Services.AddDbContext<AppDbContext>(option =>
     option.UseSqlServer(connectionString);
 });
 
-//Register CarService
-builder.Services.AddScoped<CarService>(); 
+//Register Car, Customer and Rental Service
+builder.Services.AddScoped<CarService>();
+builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<RentalService>();
 
 
 builder.Services.AddControllers();
