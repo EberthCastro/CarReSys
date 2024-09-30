@@ -29,17 +29,17 @@ Ensure the following are installed on your machine:
 1.Open your terminal or command prompt.
 
 2.Run the following command to clone the repository:
- ```bash
- https://github.com/EberthCastro/CarReSys.git
+  ```bash
+  https://github.com/EberthCastro/CarReSys.git
 
 3.Navigate into the project directory:
- ```bash
- cd CarRentalSystem
+  ```bash
+  cd CarRentalSystem
 
 📦 Step 2: Install Dependencies
 Once inside the project directory, restore the necessary NuGet packages by running:
-```bash
-dotnet restore
+  ```bash
+  dotnet restore
 
 This command will install all the required dependencies such as:
 
@@ -54,7 +54,7 @@ Microsoft.EntityFrameworkCore.Tools
 2.Navigate to the appsettings.json file.
 
 3.Update the DefaultConnection string to point to your SQL Server instance. Replace YourServerName with your SQL Server name and YourDatabaseName with your desired database name.
-```bash
+   ```bash
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=YourServerName;Database=YourDatabaseName;Trusted_Connection=True;MultipleActiveResultSets=true"
@@ -71,9 +71,9 @@ Microsoft.EntityFrameworkCore.Tools
 
 🏗 Step 4: Migrate the Database
 1.Run the following command to create the database schema:
-```bash
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+   ```bash
+   dotnet ef migrations add InitialCreate
+   dotnet ef database update
 
 This will create the necessary tables in your database ( Cars and Customers).
 
