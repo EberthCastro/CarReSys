@@ -10,10 +10,14 @@ namespace CarRentalSystem.Services.RccAPI.Controllers
     public class RentalController : ControllerBase
     {
         private readonly RentalService _rentalService;
+        private readonly CustomerService _customerService;
+        private readonly CarService _carService;
 
-        public RentalController(RentalService rentalService)
+        public RentalController(RentalService rentalService, CustomerService customerService, CarService carService)
         {
             _rentalService = rentalService;
+            _customerService = customerService;
+            _carService = carService;
         }
 
         [HttpGet("GetAll")]
@@ -171,6 +175,24 @@ namespace CarRentalSystem.Services.RccAPI.Controllers
                 // Actualizar el alquiler en la base de datos
                 await _rentalService.UpdateAsync(rentalId, rental);
 
+                // Obtener el cliente asociado al Rental usando CustomerId
+                CustomerDTO? customer = await _customerService.GetOneAsync(rental.CustomerId);
+                if (customer == null)
+                {
+                    return NotFound($"Customer with Id = {rental.CustomerId} not found.");
+                }
+
+                // Actualizar los LoyaltyPoints
+                int loyaltyPoints = CalculateLoyaltyPoints(rental.CarType);
+                customer.LoyaltyPoints += loyaltyPoints;                
+                await _customerService.UpdateAsync(rental.CustomerId, customer);
+
+                // Obtener el coche asociado al alquiler usando CarId y cambiar su disponibilidad    **************checkaer elCarID en el DTO- re migrate
+                CarDTO? car = await _carService.GetOneAsync(rental.CarId);                
+                car.IsAvailable = true;
+                bool carUpdated = await _carService.UpdateAsync(car.CarId, car);
+
+                // Devolver el objeto de alquiler actualizado
                 return Ok(rental);
             }
             catch (Exception ex)
@@ -254,6 +276,17 @@ namespace CarRentalSystem.Services.RccAPI.Controllers
             }
 
             return extraCharges;
+        }
+
+        private int CalculateLoyaltyPoints(string? carType)
+        {
+            return carType switch
+            {
+                "Premium" => 5,
+                "SUV" => 3,
+                "Small" => 1,
+                _ => throw new ArgumentException("Invalid car type for loyalty points.")
+            };
         }
 
     }

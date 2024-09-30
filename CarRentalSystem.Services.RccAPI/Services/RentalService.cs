@@ -49,9 +49,26 @@ namespace CarRentalSystem.Services.RccAPI.Services
             };
         }
 
-        // Create a new rental
+        // Create a new rental and change the Isavlaible status to false
         public async Task<RentalDTO> CreateAsync(RentalDTO rentalDto)
         {
+            // Retrieve the car by CarId
+            var car = await _db.Cars.FindAsync(rentalDto.CarId);
+            if (car == null)
+            {
+                throw new ArgumentException("Car not found.");
+            }
+
+            // Check if the car is available
+            if (!car.IsAvailable)
+            {
+                throw new InvalidOperationException("The car is not available for rental.");
+            }
+
+            // Update the IsAvailable status of the car
+            car.IsAvailable = false;
+
+            // Create a new rental record
             var rental = new RentalDB
             {
                 CarId = rentalDto.CarId,
@@ -65,10 +82,13 @@ namespace CarRentalSystem.Services.RccAPI.Services
             };
 
             await _db.Rentals.AddAsync(rental);
+
+            // Save changes to the database (both rental and car updates)
             await _db.SaveChangesAsync();
-            
+
             return rentalDto;
         }
+
 
         // Update an existing rental
         public async Task<RentalDTO?> UpdateAsync(int id, RentalDTO rentalDto)

@@ -16,6 +16,8 @@ namespace CarRentalSystem.Services.RccAPI.Models
         public string? PricePerDay { get; set; }
         [Required]
         public bool IsAvailable { get; set; }
+
+        public virtual ICollection<RentalDB> Rentals { get; set; } = new List<RentalDB>();
     } 
 
 

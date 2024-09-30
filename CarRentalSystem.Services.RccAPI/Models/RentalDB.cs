@@ -14,5 +14,8 @@ namespace CarRentalSystem.Services.RccAPI.Models
         public string? ExtraDays { get; set; }
         public string? CarType { get; set; }
         public string? TotalPrice { get; set; }
+
+        public virtual CarDB Car { get; set; } = null!;
+        public virtual CustomerDB Customer { get; set; } = null!;
     }
 }
