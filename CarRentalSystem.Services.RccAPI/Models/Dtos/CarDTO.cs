@@ -1,14 +1,13 @@
-﻿using CarRentalSystem.Services.RccAPI.Models;
-
-namespace CarRentalSystem.Services.RccAPI.Dtos
+﻿
+namespace CarRentalSystem.Services.RccAPI.Models.Dtos
 {
     public class CarDTO
     {
-        public int CardId { get; set; }
+        
         public string? Brand { get; set; }
         public string? Model { get; set; }
         public string? Type { get; set; }
-        public decimal PricePerDay { get; set; }
+        public string? PricePerDay { get; set; }
         public bool IsAvailable { get; set; }
     }
 }

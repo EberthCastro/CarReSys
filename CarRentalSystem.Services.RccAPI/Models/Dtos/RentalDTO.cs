@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CarRentalSystem.Services.RccAPI.Models
+﻿namespace CarRentalSystem.Services.RccAPI.Models.Dtos
 {
-    public class RentalDB
+    public class RentalDTO
     {
-        [Key]
-        public int RentalId { get; set; }
+        
         public int CarId { get; set; }
         public int CustomerId { get; set; }
         public DateTime RentalDate { get; set; }
@@ -14,5 +11,6 @@ namespace CarRentalSystem.Services.RccAPI.Models
         public string? ExtraDays { get; set; }
         public string? CarType { get; set; }
         public string? TotalPrice { get; set; }
+
     }
 }
