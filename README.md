@@ -77,6 +77,71 @@ Microsoft.EntityFrameworkCore.Tools
 
 This will create the necessary tables in your database ( Cars and Customers).
 
+## 🧪 Step 5: Test the API Using Swagger
+
+### 1. **Rent a Car**
+
+- **Endpoint**: `POST /api/rentals`
+- **Description**: Rent a car by providing the `CarId`, `CustomerId`, and rental details.
+
+#### Steps:
+1. Find the **POST /api/rentals** endpoint in Swagger.
+2. Click on **Try it out**.
+3. Fill in the example request body:
+   ```json
+   {
+     "CarId": 1,
+     "CustomerId": 1,
+     "RentalDate": "2024-09-30T00:00:00",
+     "ReturnDate": "2024-10-07T00:00:00",
+     "CarType": "Small"
+   }
+
+
+4. Calculate Total Price and Update Loyalty Points
+Endpoint: POST /api/rentals/calculateTotalPrice/{rentalId}/{extraDays}
+Description: Calculate the total price of a rental, including any extra days, and update loyalty points for the customer.
+Steps:
+Find the POST /api/rentals/calculateTotalPrice/{rentalId}/{extraDays} endpoint in Swagger.
+Click Try it out.
+Enter the following parameters:
+rentalId: The ID of the rental (e.g., 1).
+extraDays: The number of extra days (e.g., 2).
+Click Execute.
+Swagger will show the updated rental with the calculated total price and loyalty points.
+
+5. Get All Cars
+Endpoint: GET /api/cars
+Description: Retrieve a list of all available cars.
+Steps:
+Find the GET /api/cars endpoint in Swagger.
+Click Try it out.
+Click Execute.
+The response will show a list of all cars, including details like Brand, Model, Type, PricePerDay, and IsAvailable.
+
+6. Update Car Availability
+Endpoint: PUT /api/cars/{id}
+Description: Update a car's availability (set IsAvailable to true or false).
+Steps:
+Find the PUT /api/cars/{id} endpoint in Swagger.
+Click Try it out.
+Enter the id of the car you want to update.
+Modify the request body, for example:
+json
+Copiar código
+{
+  "Brand": "Toyota",
+  "Model": "Corolla",
+  "Type": "Small",
+  "PricePerDay": "50",
+  "IsAvailable": false
+}
+Click Execute.
+Swagger will show the updated car details.
+
+
+
+
 👏 Conclusion
 You've now set up the Car Rental System API on your local machine. From here, you can extend the functionality or integrate it with a front-end for a complete car rental management system. 🚀
 
